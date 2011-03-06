@@ -8,7 +8,7 @@ def makeResponse():
 	url="http://www.thisamericanlife.org/contributors/jack-hitt"
 	tal_html = urllib2.urlopen(url).read()
 	d=pq(tal_html)
-	jack_html = d('#content-inner').html()
+	jack_html = d('#content-bottom').html()
 	jack_json = json.dumps(jack_html)
 	return "tal_callback(%s)"%jack_json	
 
