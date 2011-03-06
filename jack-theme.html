@@ -1581,22 +1581,56 @@
 		ol.posts li.featuredphoto, ol.posts li.promote{
 			display:none;
 		}
-		#promote .post_content{
-			width:100%;
-			border-bottom:none;
-		}
 		#featuredphoto{
 			margin-top:10px;
 			float:left;
 		}
+		.episode-image{
+			width:105px;
+			float:left;
+		}
+		.episode-content{
+			margin-left:160px;
+		}
+		.clear-block{
+			clear:both;
+		}
+		.clear-block > div {
+			margin-bottom: 20px;
+		}
 	</style>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
 	<script type="text/javascript">
+		function tal_callback(tal_html){
+			$('.main').append(tal_html);
+			$('.clear-block a').each(function(){
+				rel=$(this).attr('href');
+				$(this).attr('href',"http://www.thisamericanlife.org"+rel);
+			})
+		}
+	
 		$(function(){
+			//featured photo
 			$('#featuredphoto').load('/tagged/featuredphoto .posts img:eq(0)');
-			$('#promote').load('/tagged/promote .posts .post_content');
+
+			//promo
+			$('#promote').load('/tagged/promote .posts .post_content',function(){$('#sidebar .post_content').removeClass('post_content');});
+			
+			
+			//jsonp for radio page
+			if(window.location.pathname.match(/^\/radio\/*$/)){
+				$.ajax({
+				   url: "http://simplicitysignals.com/jack.jsonp",
+				   dataType: "jsonp",
+				   async: false,
+				   jsonp: "tal_callback",
+				   processData: false,
+				 });
+			}
+			
 		});
 	</script>
+	<!--<script type="text/javascript" src="http://simplicitysignals.com/jack.jsonp"></script>-->
     {block:IfGoogleAnalyticsID}
     <script type="text/javascript">
 
